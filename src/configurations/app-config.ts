@@ -1,6 +1,7 @@
 import * as dotenv from 'dotenv';
 
 export enum KnownConfigKey {
+  IsAuthRequired = 'AUTH',
   JwtSecret = 'JWT_SIGN_SECRET',
   ServerPort = 'SERVER_PORT',
 }

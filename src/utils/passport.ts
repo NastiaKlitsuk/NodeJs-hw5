@@ -3,7 +3,7 @@ import { store } from '../store';
 import { UserCredential } from '../models/credentials';
 import { Strategy as LocalStrategy } from 'passport-local';
 import { Strategy as JwtStrategy, ExtractJwt } from 'passport-jwt';
-import jwt_config, { KnownConfigKey } from '../configurations/jwt-config';
+import app_config, { KnownConfigKey } from '../configurations/app-config';
 
 export function initPassport() {
   passport.use(
@@ -27,7 +27,7 @@ export function initPassport() {
     new JwtStrategy(
       {
         jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-        secretOrKey: jwt_config.get(KnownConfigKey.JwtSecret),
+        secretOrKey: app_config.get(KnownConfigKey.JwtSecret),
       },
       (jwtPayload: UserCredential, callback) => callback(null, jwtPayload),
     ),

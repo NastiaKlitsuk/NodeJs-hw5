@@ -1,7 +1,10 @@
-import { app } from './app';
-import jwt_config, { KnownConfigKey } from './configurations/jwt-config';
+import app_config, { KnownConfigKey } from './configurations/app-config';
 
-const serverPort = +jwt_config.get(KnownConfigKey.ServerPort, '3000');
+app_config.init();
+
+import { app } from './app';
+
+const serverPort = +app_config.get(KnownConfigKey.ServerPort, '3000');
 
 app.listen(serverPort, () => {
   // tslint:disable-next-line: no-console

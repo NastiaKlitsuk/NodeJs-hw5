@@ -6,9 +6,7 @@ import error from './middlewares/error';
 import { initPassport } from './utils/passport';
 import { createExpressWinstonOptions } from './utils/logger';
 import { config as routesConfig } from './configurations/routes-config';
-import jwt_config from './configurations/jwt-config';
 
-jwt_config.init();
 initPassport();
 
 const app = express();

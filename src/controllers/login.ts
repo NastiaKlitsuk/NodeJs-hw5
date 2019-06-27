@@ -2,9 +2,9 @@ import passport from 'passport';
 import jwt from 'jsonwebtoken';
 import { IVerifyOptions } from 'passport-local';
 import { Request, Response, NextFunction } from 'express';
-import jwt_config, { KnownConfigKey } from '../configurations/jwt-config';
+import app_config, { KnownConfigKey } from '../configurations/app-config';
 
-const jwtSecret = jwt_config.get(KnownConfigKey.JwtSecret);
+const jwtSecret = app_config.get(KnownConfigKey.JwtSecret);
 
 export const authenticate = (req: Request, res: Response, next: NextFunction) =>
   passport.authenticate(
