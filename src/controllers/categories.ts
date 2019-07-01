@@ -11,19 +11,18 @@ import { wrapAsyncAndSend, wrapAsync } from '../utils/async';
 import { createLogger } from '../utils/logger';
 import { categorySchema } from '../validations';
 
-const categories = store.categories;
 const deletedCategoriesIds = store.deletedCategoriesIds;
 const logger = createLogger('categoriesController');
 
 export const getCategories = wrapAsyncAndSend(
   (request: Request, response: Response, next: NextFunction) =>
-    Promise.resolve(categories),
+    Promise.resolve(store.categories),
 );
 
 export const getCategoryById = wrapAsync(
   (request: Request, response: Response, next: NextFunction) => {
     logger.info(`Requested category by id - ${request.params.id}`);
-    return Promise.resolve(getItemById(request, response, next, categories));
+    return Promise.resolve(getItemById(request, response, next, store.categories));
   },
 );
 
@@ -36,7 +35,7 @@ export function createCategory(
     request,
     response,
     next,
-    categories,
+    store.categories,
     deletedCategoriesIds,
     categorySchema,
   );
@@ -47,7 +46,7 @@ export function updateCategory(
   response: Response,
   next: NextFunction,
 ) {
-  updateItem<Category>(request, response, next, categories, categorySchema);
+  updateItem<Category>(request, response, next, store.categories, categorySchema);
 }
 
 export function deleteCategory(
@@ -55,6 +54,6 @@ export function deleteCategory(
   response: Response,
   next: NextFunction,
 ) {
-  deleteItem<Category>(request, response, next, categories);
+  deleteItem<Category>(request, response, next, store.categories);
   deletedCategoriesIds.push(request.params.id);
 }

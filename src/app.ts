@@ -1,4 +1,5 @@
 import cors from 'cors';
+import path from 'path';
 import express from 'express';
 import { log } from './middlewares/log';
 import expressWinston from 'express-winston';
@@ -15,6 +16,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(log);
 app.use(expressWinston.logger(createExpressWinstonOptions()));
+app.use('/public', express.static(path.join(__dirname, 'public')));
 
 Object.keys(routesConfig).forEach(routeName => {
   const routeConfig = routesConfig[routeName];

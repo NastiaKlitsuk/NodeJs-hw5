@@ -1,8 +1,8 @@
-import products from './products.json';
-import categories from './categories.json';
-import { credentials } from './credentials.js';
-import { Product, Category } from '../models/index.js';
-import { UserCredential } from '../models/credentials.js';
+import * as products from './products';
+import * as categories from './categories';
+import { credentials } from '../store/credentials';
+import { Product, Category } from '../models/index';
+import { UserCredential } from '../models/credentials';
 
 interface Store {
   products: Product[];
@@ -12,10 +12,18 @@ interface Store {
   credentials: UserCredential[];
 }
 
-export const store: Store = {
-  products,
-  categories,
+export let store: Store = {
+  products: [],
+  categories: [],
   credentials,
   deletedProductsIds: [],
   deletedCategoriesIds: [],
 };
+
+export function initStore() {
+  categories
+    .getCategories()
+    .then(categoriesData => (store.categories = categoriesData));
+
+  products.getProducts().then(productsData => (store.products = productsData));
+}

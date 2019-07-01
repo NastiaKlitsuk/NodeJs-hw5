@@ -11,12 +11,12 @@ import { wrapAsyncAndSend, wrapAsync } from '../utils/async';
 import { createLogger } from '../utils/logger';
 import { productSchema } from '../validations';
 
-const { products, deletedProductsIds } = store;
+const { deletedProductsIds } = store;
 const logger = createLogger('productsController');
 
 export const getProducts = wrapAsyncAndSend(
   (request: Request, response: Response, next: NextFunction) =>
-    Promise.resolve(products),
+    Promise.resolve(store.products),
 );
 
 export function getProductsByCategory(
@@ -25,7 +25,7 @@ export function getProductsByCategory(
   next: NextFunction,
 ) {
   const categoryId = request.params.id;
-  const productsByCategoryId = products.filter(
+  const productsByCategoryId = store.products.filter(
     product => product.categoryId === categoryId,
   );
   response.status(200).send(productsByCategoryId);
@@ -34,7 +34,7 @@ export function getProductsByCategory(
 export const getProductById = wrapAsync(
   (request: Request, response: Response, next: NextFunction) => {
     logger.info(`Requested product by id - ${request.params.id}`);
-    return Promise.resolve(getItemById(request, response, next, products));
+    return Promise.resolve(getItemById(request, response, next, store.products));
   },
 );
 
@@ -47,7 +47,7 @@ export function createProduct(
     request,
     response,
     next,
-    products,
+    store.products,
     deletedProductsIds,
     productSchema,
   );
@@ -58,7 +58,7 @@ export function updateProduct(
   response: Response,
   next: NextFunction,
 ) {
-  updateItem<Product>(request, response, next, products, productSchema);
+  updateItem<Product>(request, response, next, store.products, productSchema);
 }
 
 export function deleteProduct(
@@ -66,6 +66,6 @@ export function deleteProduct(
   response: Response,
   next: NextFunction,
 ) {
-  deleteItem<Product>(request, response, next, products);
+  deleteItem<Product>(request, response, next, store.products);
   deletedProductsIds.push(request.params.id);
 }

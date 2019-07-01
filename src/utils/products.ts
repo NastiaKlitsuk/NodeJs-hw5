@@ -1,12 +1,10 @@
 import { store } from '../store';
 import { isItemExists, findItemIndex } from './general';
 
-const products = store.products;
-
 export function findProductById(id: string) {
-  return isItemExists(id, products);
+  return isItemExists(id, store.products);
 }
 
 export function findProductIndex(id: string) {
-  return findItemIndex(id, products);
+  return findItemIndex(id, store.products);
 }
